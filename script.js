@@ -104,42 +104,14 @@ const questionbank = [
 // randomly selecting
 
 function RandomQuestion(){
-    // we need to select question and random question 1 q should not be repeated so use set
 
-/*    const data=new Set()
-    while(data.size!=5)
-    {
-        const index=Math.floor(Math.random()*questionbank.length)
-        data.add(questionbank[index]) // we want to add the object questions
-    }
-
-    return [...data]
-
-*/
-
-//*********************Here we will write  approach************************ */
-// O(nlogn) time complexity more worse than previous
-
-        // questionbank.sort(()=>Math.random()-0.5)
-        // return questionbank.slice(0,5)
-
-// ****************** Fischer Algorithm ******************** O(n) time complexity
-    // 1) step create the required array of 5 element which we want to return
     const required_arr=[]
-    // 2) length of the question array
     let length=questionbank.length
-    // 3) for loop operation for selecting 5 question
     for(let i=0;i<5;i++)
     {
         const index=Math.floor(Math.random()*length)
-
-        // 4) push the selected indexed element to array
         required_arr.push(questionbank[index])
-
-        // 5) swapping the last and current indexed element
         [questionbank[index],questionbank[length-1]]=[questionbank[length-1],questionbank[index]]
-
-        //6) decreasing the length
         length--
     }
 
@@ -148,62 +120,32 @@ function RandomQuestion(){
 
 console.log(RandomQuestion())
 
-// select the form first
 const form=document.querySelector('form')
-
-// creating an object with original answer
 const original_answer={}
-
-
-// store the randomly generated 5 questions number 
 const question_number_generated=RandomQuestion()
 
 question_number_generated.forEach((obj,index)=>{
 
-    // stroing the correct answer in the original_answer object
     original_answer[`q${index+1}`]=obj.correctAnswer
-
-
-     //create div element with classname
     const div_element=document.createElement('div')
     div_element.className="question"
-
-    // create a p for storing question info
     const p_question=document.createElement('p')
-
-    //store the question
     p_question.textContent=`Q${index+1}. ${obj['question']}`
-
-    //append the question to it's div
     div_element.appendChild(p_question)
-
-
-    //create 4 options
     obj.options.forEach((option)=>{
-
-        //create label and radio input options
 
         const label=document.createElement('label')
         const radio_input=document.createElement('input')
         radio_input.type='radio'
         radio_input.name=`q${index+1}`
-        
-        //each array option being attached with it's value
+    
         radio_input.value=option
-
-        //putting input inside label
         label.appendChild(radio_input)
-
-        //labelling each option
         label.appendChild(document.createTextNode(option))
-
-        //label has been created now append it to it's div
         div_element.appendChild(label)
         div_element.appendChild(document.createElement('br'))
     })
 
-
-    //after succesfully creating one question we must append the div to form
     form.appendChild(div_element)
 })
 
